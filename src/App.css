@@ -1,0 +1,100 @@
+.App {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100vh;
+    overflow-y: hidden;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  .editor-container {
+    flex: 3;
+
+  }
+  .centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .horizontal-line {
+    width: 100%;
+    border-bottom: 1px solid black;
+  }
+  .sidebar {
+    flex: 1;
+    
+    border-right: 1px solid black;
+    height: calc(100% - 20px);
+   
+    padding: 10px;
+    
+  
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid black;
+    height: 100px;
+  }
+  h1 {
+    margin-bottom: 0;
+  }
+  
+  p {
+    margin-top: 0;
+  }
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .editor-header {
+    display: flex;
+
+    
+    height: 50px;
+   
+  }
+  
+  .editor-header p {
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .my-quill-editor {
+    height: 80vh;
+  }
+  .note-title-input {
+    border: none;
+  }
+  
