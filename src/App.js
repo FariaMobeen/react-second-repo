@@ -1,69 +1,69 @@
-
-import './App.css';
-import React, {useState} from "react";
-import ReactQuill from "react-quill";
-import "../node_modules/react-quill/dist/quill.snow.css";
+import { useEffect, useState } from "react";
+import uuid from "react-uuid";
+import "./App.css";
+import Main from "./Main.js";
+import Sidebar from "./Sidebar.js";
 
 function App() {
-  const [noteTitle, setNoteTitle] = useState("Untitled");
+  const [notes, setNotes] = useState(
+    localStorage.notes ? JSON.parse(localStorage.notes) : []
+  );
+  const [activeNote, setActiveNote] = useState(false);
 
-  const [body,setBody] = useState("");
-  const handleBody = e =>{
-    console.log(e);
-    setBody(e);
-  }
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
+  const onAddNote = () => {
+    const newNote = {
+      id: uuid(),
+      title: "Untitled Note",
+      body: "",
+      lastModified: Date.now(),
+    };
+
+    setNotes([newNote, ...notes]);
+    setActiveNote(newNote.id);
+  };
+
+  const onDeleteNote = (noteId) => {
+    setNotes(notes.filter(({ id }) => id !== noteId));
+  };
+
+  const onUpdateNote = (updatedNote) => {
+    const updatedNotesArr = notes.map((note) => {
+      if (note.id === updatedNote.id) {
+        return updatedNote;
+      }
+
+      return note;
+    });
+
+    setNotes(updatedNotesArr);
+  };
+
+  const getActiveNote = () => {
+    return notes.find(({ id }) => id === activeNote);
+  };
+
   return (
-    <div>
+    <div className="App">
       <header>
         <h1>Lotion</h1>
-     <p>Like Notion, but worse</p>
+
+    <p>Like Notion, but worse</p>
+
       </header>
-      <div className="App">
-        <div className="editor-container">
-        <div className="editor-header">
-        <input
-  type="text"
-  placeholder="Enter note title"
-  value={noteTitle}
-  onChange={(e) => setNoteTitle(e.target.value)}
-  className="note-title-input"
-/>
-
-
-</div>
-          <ReactQuill
-            placeholder="Your note here"
-            modules={App.modules}
-            formats={App.formats}
-            onChange={handleBody}
-            value={body}
-            className="my-quill-editor"
-          />
-        </div>
-        <div className="sidebar">
-          <p><strong>Notes</strong></p>
-        </div>
-      </div>
+      <Sidebar
+        notes={notes}
+        onAddNote={onAddNote}
+        onDeleteNote={onDeleteNote}
+        activeNote={activeNote}
+        setActiveNote={setActiveNote}
+      />
+      <Main activeNote={getActiveNote()} onUpdateNote={onUpdateNote} />
     </div>
   );
 }
-App.modules = {
-  toolbar: [
-    [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-    [{size: []}],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{'list': 'ordered'}, {'list': 'bullet'}, 
-     {'indent': '-1'}, {'indent': '+1'}],
-    ['link', 'image', 'video'],
-    ['clean']
-  ],
-};
-
-App.formats = [
-  'header', 'font', 'size',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent',
-  'link', 'image', 'video'
-];
 
 export default App;
