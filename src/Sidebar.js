@@ -1,3 +1,4 @@
+// Define the Sidebar component
 const Sidebar = ({
     notes,
     onAddNote,
@@ -5,18 +6,23 @@ const Sidebar = ({
     activeNote,
     setActiveNote,
   }) => {
+    // Sort the notes array by last modified date, in descending order
     const sortedNotes = notes.sort((a, b) => b.lastModified - a.lastModified);
   
+    // Render the component's JSX
     return (
       <div className="app-sidebar">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
   
+        {/* Render the header */}
         <div className="app-sidebar-header">
           <h1>Notes</h1>
           <button onClick={onAddNote}>
             <span><i className="fas fa-plus"></i></span>
           </button>
         </div>
+  
+        {/* Render the list of notes */}
         <div className="app-sidebar-notes">
           {notes.length === 0 ? (
             <div className="no-notes">No notes yet</div>
@@ -28,7 +34,8 @@ const Sidebar = ({
               >
                 <div className="sidebar-note-title">
                   <strong>{title}</strong>
-                  <button onClick={(e) => onDeleteNote(id)}>Delete</button>
+                  
+
                 </div>
   
                 <p>{body && body.substr(0, 100) + "..."}</p>
@@ -47,5 +54,6 @@ const Sidebar = ({
     );
   };
   
+  // Export the Sidebar component as the default export
   export default Sidebar;
   

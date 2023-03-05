@@ -144,6 +144,7 @@ button {
   width: 70%;
   height: calc(100vh - 80px);
   overflow-y: auto; /* Add overflow-y to enable scrolling within main section */
+  overflow-x: hidden;
 }
 .app-main-note-edit,
 .app-main-note-preview {
@@ -165,7 +166,7 @@ button {
   
   border-bottom: 1px solid grey;
 
-  width: 200%; /* double the width of the element */
+  width: 100%; /* double the width of the element */
   font-size: 18px;
 }
 .title-input {
@@ -178,15 +179,47 @@ button {
 }
 
 
+.delete-note-button {
+  background-color: #fff;
+  color: black;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  height: auto;
+  height: auto;
+  float: right; /* float the button to the right */
+  
+}
 
+
+.delete-note-button:hover {
+  background-color: rgb(162, 85, 162);
+  color: white;
+}
+.save-note-button {
+  background-color: #fff;
+  color: black;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  height: auto;
+  height: auto;
+  float: right; 
+  padding-right: 5px;
+
+}
+.save-note-button:hover {
+  background-color: rgb(162, 85, 162);
+  color: white;
+}
 /* Editing */
 
 
 .app-main-note-edit input,
 textarea {
   display: block;
-  border: 1px solid #ddd;
-
+  border: none;
+padding: 10px;
   width: 100%;
   height: calc(50vh - 130px);
 
