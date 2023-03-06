@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "../node_modules/react-quill/dist/quill.snow.css";
 import DatePicker from "./datepicker";
+import ReactMarkdown from "react-markdown";
 
 // Header component with title input, datepicker and save/delete buttons
-const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote={onSaveNote}, }) => {
-  return (
+const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote={onSaveNote} }) => {
+  
+    const [previewVisible, setPreviewVisible] = useState(false);
+
+  const togglePreview = () => {
+    setPreviewVisible(!previewVisible);
+};
+    return (
     <div className="editor-header">
       <div className="header-wrapper">
         <div className="title-wrapper title-input">
@@ -24,25 +31,38 @@ const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote={onSave
         <button onClick={() => onDeleteNote(activeNote.id)} style={{ float: "right" }}>
             Delete
           </button>
-          <button onClick={() => onSaveNote(activeNote.id)} style={{ float: "right" }}>
-  Save
-</button>
+          <button id="save-Button" onClick={() => {
+          onSaveNote();
+          togglePreview();
+        }} style={{ float: "right" }}>
+          Save
+        </button>
+
         <div className="datepicker-wrapper calendar-input">
           <DatePicker />
         </div>
         <div>
-          
+          {/* Preview component */}
+      {previewVisible && (
+        <div className="app-main-note-preview">
+          <h1 className="preview-title">{activeNote.title}</h1>
+          <ReactMarkdown className="markdown-preview">
+            {activeNote.body}
+          </ReactMarkdown>
+        </div>
+      )}
+    </div>
           
         </div>
       </div>
-    </div>
+    
   );
 };
 
 // Main component with editor and save status display
-const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote,
+const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
  }) => {
- 
+    
   // Function to update a field in the note object
   const onEditField = (field, value) => {
     onUpdateNote({
@@ -52,7 +72,7 @@ const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote,
     });
   };
 
-  // Function to handle save button click
+  
 
 
   // If there is no active note, display a message
@@ -94,6 +114,8 @@ const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote,
 
        
       </div>
+    
+   
     </div>
   );
 };
