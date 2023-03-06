@@ -4,7 +4,7 @@ import "../node_modules/react-quill/dist/quill.snow.css";
 import DatePicker from "./datepicker";
 
 // Header component with title input, datepicker and save/delete buttons
-const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote }) => {
+const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote={onSaveNote}, }) => {
   return (
     <div className="editor-header">
       <div className="header-wrapper">
@@ -19,12 +19,14 @@ const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote }) => {
             style={{ fontSize: "12px" }}
           />
         </div>
-        <button onClick={() => onSaveNote(activeNote.id)} style={{ float: "left" }}>
-            Save
-          </button>
+       
+
         <button onClick={() => onDeleteNote(activeNote.id)} style={{ float: "right" }}>
             Delete
           </button>
+          <button onClick={() => onSaveNote(activeNote.id)} style={{ float: "right" }}>
+  Save
+</button>
         <div className="datepicker-wrapper calendar-input">
           <DatePicker />
         </div>
@@ -38,7 +40,7 @@ const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote }) => {
 };
 
 // Main component with editor and save status display
-const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
+const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote,
  }) => {
  
   // Function to update a field in the note object
@@ -68,7 +70,7 @@ const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
       
         />
         {/* Editor component */}
-         {/* replacing text area with react quill causes the issue of not saving automatically
+         {/* replacing text area with react quill causes
         <textarea
           id="body"
           placeholder="Write your note here..."
@@ -77,14 +79,16 @@ const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
         />
       */}
        
-       <ReactQuill
+        <ReactQuill
   name="body"
   id="body"
   placeholder="Write your note here..."
   modules={Main.modules}
   formats={Main.formats}
   value={activeNote.body}
-  //onChange={(content, delta, source, editor) => {onEditField("body", editor.getHTML());}}
+  onChange={(content, delta, source, editor) => {
+    onEditField("body", editor.getHTML());
+  }}//issue occuring when change this line
   className="my-quill-editor"
 />
 
