@@ -8,6 +8,7 @@ function App() {
   // Use state hooks to manage notes and active note
   const [notes, setNotes] = useState([]);
   const [activeNote, setActiveNote] = useState(false);
+  const [readOnly, setReadOnly] = useState(false); // add state for read-only
 
   // Load saved notes from local storage when the app loads
   useEffect(() => {
@@ -31,33 +32,37 @@ function App() {
 
   // Function to delete a note
   const onDeleteNote = (noteId) => {
-    const index = notes.findIndex(({ id }) => id === noteId);
-    if (index !== -1) {
-      const newNotes = [...notes];
-      newNotes.splice(index, 1);
-      setNotes(newNotes);
-  
-      localStorage.setItem("notes", JSON.stringify(newNotes));
-  
-      if (newNotes.length === 0) {
-        setActiveNote(false);
-      } else {
-        const nextIndex = index === 0 ? 0 : index - 1;
-        setActiveNote(newNotes[nextIndex].id);
-      }
+  const index = notes.findIndex(({ id }) => id === noteId);
+  if (index !== -1) {
+    const newNotes = [...notes];
+    newNotes.splice(index, 1);
+    setNotes(newNotes);
+
+    localStorage.setItem("notes", JSON.stringify(newNotes));
+
+    if (newNotes.length === 0) {
+      setActiveNote(false);
+    } else {
+      const nextIndex = index === 0 ? 0 : index - 1;
+      setActiveNote(newNotes[nextIndex].id);
     }
-  };
-  
+  }
+  // setReadOnly(false);
+
+};
+
   const onSaveNote = () => {
     var button = document.getElementById("save-Button");
     if (button.innerHTML === "Edit") {
       button.innerHTML = "Save";
     document.getElementsByClassName("ql-toolbar")[0].style.display= "block";
-    
+    setReadOnly(false);
+
     } else {
       button.innerHTML = "Edit";
       document.getElementsByClassName("ql-toolbar")[0].style.display= "none";
-      
+      setReadOnly(true);
+
       //document.getElementById("ql-editor").disable();
     }
 
@@ -100,6 +105,8 @@ function App() {
     });
 
     setNotes(updatedNotesArr);
+    setReadOnly(false);
+
   };
 
 
@@ -157,7 +164,7 @@ function App() {
         onUpdateNote={onUpdateNote}
         onDeleteNote={onDeleteNote}
         onSaveNote={onSaveNote}
-        
+        readOnly = {readOnly}
       />
     </div>
   );

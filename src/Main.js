@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 // Header component with title input, datepicker and save/delete buttons
-const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote,onnoedit  }) => {
+const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote,readOnly  }) => {
   
     const [previewVisible, setPreviewVisible] = useState(false);
 
@@ -17,16 +17,17 @@ const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote,onnoedi
       button.value = "Edit";
     } else {
       button.value = "Save";}
-};
-const [readOnly, setReadOnly] = useState(false); // add state for read-only
+// };
+// const [readOnly, setReadOnly] = useState(false); // add state for read-only
 
-  const disabletitleonsave = () => {
-    setReadOnly((prevReadOnly) => !prevReadOnly);
-  }
-  const [readOnlyDate, setReadOnlyDate] = useState(false); // add state for read-only
-  const disabledatepickeronsave = () => {
-    setReadOnlyDate((prevReadOnly) => !prevReadOnly);
-  }
+//   const disabletitleonsave = () => {
+//     setReadOnly((prevReadOnly) => !prevReadOnly);
+//   }
+//   const [readOnlyDate, setReadOnlyDate] = useState(false); // add state for read-only
+//   const disabledatepickeronsave = () => {
+//     setReadOnlyDate((prevReadOnly) => !prevReadOnly);
+//  
+ }
   
 const titleHeader =(<input
   type="text"
@@ -41,7 +42,9 @@ const titleHeader =(<input
 
   const datepicker =(
 <DatePicker
-readOnly={readOnlyDate}
+readOnly={readOnly}
+
+// readOnly={readOnlyDate}
 
 />
 
@@ -60,9 +63,9 @@ readOnly={readOnlyDate}
           </button>
           <button id="save-Button" onClick={() => {
           onSaveNote();
-          onnoedit();
-          disabletitleonsave();
-          disabledatepickeronsave()
+          // onnoedit();
+          // disabletitleonsave();
+          // disabledatepickeronsave()
         }} style={{ float: "right" }}>
             Save 
         </button>
@@ -83,14 +86,9 @@ readOnly={readOnlyDate}
 };
 
 // Main component with editor and save status display
-const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
+const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote,readOnly
  }) => {
-  const [readOnly, setReadOnly] = useState(false); // add state for read-only
 
-  const onnoedit = () => {
-    setReadOnly((prevReadOnly) => !prevReadOnly);
-  }
-  
   // Function to update a field in the note object
   const onEditField = (field, value) => {
     onUpdateNote({
@@ -132,7 +130,8 @@ const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
           onEditField={onEditField}
           onDeleteNote={onDeleteNote}
           onSaveNote = {onSaveNote}
-          onnoedit={onnoedit}
+
+          readOnly = {readOnly}
         />
 {quillComponent}
 
