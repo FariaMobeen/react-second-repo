@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "../node_modules/react-quill/dist/quill.snow.css";
 import DatePicker from "./datepicker";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
 
 // Header component with title input, datepicker and save/delete buttons
 const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote,readOnly  }) => {
   
-    const [previewVisible, setPreviewVisible] = useState(false);
+//     const [previewVisible, setPreviewVisible] = useState(false);
 
-  const togglePreview = () => {
-    setPreviewVisible(!previewVisible);
-    var button = document.getElementById("save-Button");
-    if (button.value === "Save") {
-      button.value = "Edit";
-    } else {
-      button.value = "Save";}
-// };
-// const [readOnly, setReadOnly] = useState(false); // add state for read-only
+// //   const togglePreview = () => {
+// //     setPreviewVisible(!previewVisible);
+// //     var button = document.getElementById("save-Button");
+// //     if (button.value === "Save") {
+// //       button.value = "Edit";
+// //     } else {
+// //       button.value = "Save";}
+// // // };
+// // // const [readOnly, setReadOnly] = useState(false); // add state for read-only
 
-//   const disabletitleonsave = () => {
-//     setReadOnly((prevReadOnly) => !prevReadOnly);
-//   }
-//   const [readOnlyDate, setReadOnlyDate] = useState(false); // add state for read-only
-//   const disabledatepickeronsave = () => {
-//     setReadOnlyDate((prevReadOnly) => !prevReadOnly);
-//  
- }
+// // //   const disabletitleonsave = () => {
+// // //     setReadOnly((prevReadOnly) => !prevReadOnly);
+// // //   }
+// // //   const [readOnlyDate, setReadOnlyDate] = useState(false); // add state for read-only
+// // //   const disabledatepickeronsave = () => {
+// // //     setReadOnlyDate((prevReadOnly) => !prevReadOnly);
+// // //  
+// //  }
   
 const titleHeader =(<input
   type="text"
