@@ -3,28 +3,55 @@ import ReactQuill from "react-quill";
 import "../node_modules/react-quill/dist/quill.snow.css";
 import DatePicker from "./datepicker";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 // Header component with title input, datepicker and save/delete buttons
-const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote={onSaveNote} }) => {
+const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote,onnoedit  }) => {
   
     const [previewVisible, setPreviewVisible] = useState(false);
 
   const togglePreview = () => {
     setPreviewVisible(!previewVisible);
+    var button = document.getElementById("save-Button");
+    if (button.value === "Save") {
+      button.value = "Edit";
+    } else {
+      button.value = "Save";}
 };
+const [readOnly, setReadOnly] = useState(false); // add state for read-only
+
+  const disabletitleonsave = () => {
+    setReadOnly((prevReadOnly) => !prevReadOnly);
+  }
+  const [readOnlyDate, setReadOnlyDate] = useState(false); // add state for read-only
+  const disabledatepickeronsave = () => {
+    setReadOnlyDate((prevReadOnly) => !prevReadOnly);
+  }
+  
+const titleHeader =(<input
+  type="text"
+  id="title"
+  placeholder="Note Title"
+  value={activeNote.title}
+  onChange={(e) => onEditField("title", e.target.value)}
+  autoFocus
+  style={{ fontSize: "12px" }}
+  readOnly={readOnly} // Add this line
+  />)
+
+  const datepicker =(
+<DatePicker
+readOnly={readOnlyDate}
+
+/>
+
+  );
+  
     return (
     <div className="editor-header">
       <div className="header-wrapper">
         <div className="title-wrapper title-input">
-          <input
-            type="text"
-            id="title"
-            placeholder="Note Title"
-            value={activeNote.title}
-            onChange={(e) => onEditField("title", e.target.value)}
-            autoFocus
-            style={{ fontSize: "12px" }}
-          />
+         {titleHeader}
         </div>
        
 
@@ -33,24 +60,20 @@ const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote={onSave
           </button>
           <button id="save-Button" onClick={() => {
           onSaveNote();
-          togglePreview();
+          onnoedit();
+          disabletitleonsave();
+          disabledatepickeronsave()
         }} style={{ float: "right" }}>
-          Save
+            Save 
         </button>
 
         <div className="datepicker-wrapper calendar-input">
-          <DatePicker />
+        {datepicker}
         </div>
         <div>
           {/* Preview component */}
-      {previewVisible && (
-        <div className="app-main-note-preview">
-          <h1 className="preview-title">{activeNote.title}</h1>
-          <ReactMarkdown className="markdown-preview">
-            {activeNote.body}
-          </ReactMarkdown>
-        </div>
-      )}
+         
+
     </div>
           
         </div>
@@ -62,7 +85,12 @@ const EditorHeader = ({ activeNote, onEditField, onDeleteNote,onSaveNote={onSave
 // Main component with editor and save status display
 const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
  }) => {
-    
+  const [readOnly, setReadOnly] = useState(false); // add state for read-only
+
+  const onnoedit = () => {
+    setReadOnly((prevReadOnly) => !prevReadOnly);
+  }
+  
   // Function to update a field in the note object
   const onEditField = (field, value) => {
     onUpdateNote({
@@ -74,10 +102,27 @@ const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
 
   
 
-
+  
   // If there is no active note, display a message
   if (!activeNote) return <div className="no-active-note">No Active Note</div>;
 
+  const quillComponent = (
+    <ReactQuill
+      name="body"
+      id="body"
+      placeholder="Write your note here..."
+      modules={Main.modules}
+      formats={Main.formats}
+      value={activeNote.body}
+      onChange={(content, delta, source, editor) => {
+        onEditField("body", editor.getHTML());
+      }}
+          readOnly={readOnly} // Add this line
+
+      className="my-quill-editor"
+    />
+  );
+  
   return (
     <div className="app-main">
       <div className="app-main-note-edit">
@@ -87,34 +132,12 @@ const Main = ({ activeNote, onUpdateNote, onDeleteNote, onSaveNote
           onEditField={onEditField}
           onDeleteNote={onDeleteNote}
           onSaveNote = {onSaveNote}
-      
+          onnoedit={onnoedit}
         />
-        {/* Editor component */}
-         {/* replacing text area with react quill causes
-        <textarea
-          id="body"
-          placeholder="Write your note here..."
-          value={activeNote.body}
-          onChange={(e) => onEditField("body", e.target.value)}
-        />
-      */}
-       
-        <ReactQuill
-  name="body"
-  id="body"
-  placeholder="Write your note here..."
-  modules={Main.modules}
-  formats={Main.formats}
-  value={activeNote.body}
-  onChange={(content, delta, source, editor) => {
-    onEditField("body", editor.getHTML());
-  }}//issue occuring when change this line
-  className="my-quill-editor"
-/>
+{quillComponent}
 
        
       </div>
-    
    
     </div>
   );
@@ -149,3 +172,5 @@ Main.formats = [
 ];
 
 export default Main;
+
+

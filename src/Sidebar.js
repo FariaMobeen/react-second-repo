@@ -4,6 +4,7 @@ const Sidebar = ({
     onDeleteNote,    // function to delete a note
     activeNote,      // ID of the currently active note
     setActiveNote,   // function to set the active note
+    body
   }) => {
     // sort the notes by lastModified date, most recent first
     const sortedNotes = notes.sort((a, b) => b.lastModified - a.lastModified);
@@ -20,11 +21,16 @@ const Sidebar = ({
             <div
               key={id} // add a unique key for each note
               className={`app-sidebar-note ${id === activeNote && "active"}`}
-              onClick={() => setActiveNote(id)}
+              onClick={() => {
+                setActiveNote(id)
+               // document.getElementsByClassName("ql-toolbar")[0].style.display= "block";
+            }}
             >
               <div className="sidebar-note-title">
                 <strong>{title}</strong>
               </div>
+
+              {body && body.substr(0, 10) + "..."}
               <small className="note-meta">
                 {/* format the lastModified date */}
                 Last Modified{" "}
