@@ -4,7 +4,6 @@ const Sidebar = ({
     onDeleteNote,    // function to delete a note
     activeNote,      // ID of the currently active note
     setActiveNote,   // function to set the active note
-    body
   }) => {
     // sort the notes by lastModified date, most recent first
     const sortedNotes = notes.sort((a, b) => b.lastModified - a.lastModified);

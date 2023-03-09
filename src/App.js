@@ -32,25 +32,26 @@ function App() {
 
   // Function to delete a note
   const onDeleteNote = (noteId) => {
-  const index = notes.findIndex(({ id }) => id === noteId);
-  if (index !== -1) {
-    const newNotes = [...notes];
-    newNotes.splice(index, 1);
-    setNotes(newNotes);
-
-    localStorage.setItem("notes", JSON.stringify(newNotes));
-
-    if (newNotes.length === 0) {
-      setActiveNote(false);
-    } else {
-      const nextIndex = index === 0 ? 0 : index - 1;
-      setActiveNote(newNotes[nextIndex].id);
+    const index = notes.findIndex(({ id }) => id === noteId);
+    if (index !== -1) {
+      const shouldDelete = window.confirm("Are you sure you want to delete this note?");
+      if (shouldDelete) {
+        const newNotes = [...notes];
+        newNotes.splice(index, 1);
+        setNotes(newNotes);
+  
+        localStorage.setItem("notes", JSON.stringify(newNotes));
+  
+        if (newNotes.length === 0) {
+          setActiveNote(false);
+        } else {
+          const nextIndex = index === 0 ? 0 : index - 1;
+          setActiveNote(newNotes[nextIndex].id);
+        }
+      }
     }
-  }
-  // setReadOnly(false);
-
-};
-
+  };
+  
   const onSaveNote = () => {
     var button = document.getElementById("save-Button");
     if (button.innerHTML === "Edit") {
